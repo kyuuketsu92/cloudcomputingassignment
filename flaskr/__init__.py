@@ -1,6 +1,7 @@
 import os
 from flaskext.mysql import MySQL
-from flask import Flask
+from flask import Flask, request
+import requests
 from . import db
 
 
@@ -38,5 +39,15 @@ def create_app(test_config=None):
     @app.route('/test-db')
     def display_database():
         return db.get_html_database(mysql),200
+
+    # this is a test for an upcoming weather API where we use an external API to get location information
+    @app.route('/test-ipdata')
+    def display_ipdata():
+        ip_address = request.remote_addr
+        #ip_address = '90.194.108.13'
+        #print('http://ip-api.com/json/{ip}'.format(ip=ip_address))
+        json_data = requests.get('http://ip-api.com/json/{ip}'.format(ip=ip_address))
+        #print(json_data.text)
+        return ("User_ip_address:"+ip_address+"<br>"+db.html_format_json(json_data.text)),200
 
     return app
