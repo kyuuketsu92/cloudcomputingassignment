@@ -1,11 +1,13 @@
 import os
 from flaskext.mysql import MySQL
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import requests
 from . import db
 
 
-def create_app(test_config=None): 
+def create_app(test_config=None):
+
+    
 
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -13,6 +15,9 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
+
+    from . import auth
+    app.register_blueprint(auth.bp) 
 
     mysql = db.init_db(app)
 
@@ -46,8 +51,21 @@ def create_app(test_config=None):
         ip_address = request.remote_addr
         #ip_address = '90.194.108.13'
         #print('http://ip-api.com/json/{ip}'.format(ip=ip_address))
-        json_data = requests.get('http://ip-api.com/json/{ip}'.format(ip=ip_address))
+        response = requests.get('http://ip-api.com/json/{ip}'.format(ip=ip_address))
+        data = response.json()
         #print(json_data.text)
-        return ("User_ip_address:"+ip_address+"<br>"+db.html_format_json(json_data.text)),200
+
+        #example on how to get the longitude and latitude coordinates from successful responses
+        #if(data["status"] != "fail"):
+        #    print(data["lat"])
+        #    print(data["lon"])
+        #else:
+        #    print("failed")
+        return ("User_ip_address:"+ip_address+"<br>"+db.html_format_json(data)),200
+
+    #techincally a log on only part of the website that for now as a test is being stored and handled here
+    @app.route('/dashboard')
+    def dashboard():
+        return "Eventually going to be the dashboard for the calendar entry system or whatever. For now just handled as such."
 
     return app

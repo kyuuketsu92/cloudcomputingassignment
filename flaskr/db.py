@@ -1,14 +1,33 @@
 from flaskext.mysql import MySQL
 from json2html import *
 
+
+
+def get_db():
+    global glb_mysql
+    return glb_mysql
+
+def is_email_exist(conn, email):
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM LOGIN_CREDENTIALS WHERE EMAIL like '{email}'".format(email = email))
+    data = cursor.fetchone()
+    print(data)
+    print(type(data))
+    if(data == None):
+        return False
+    else:
+        return True
+
 #returns the mysql handler
 def init_db(app):
+    global glb_mysql
     mysql = MySQL()
     app.config['MYSQL_DATABASE_USER'] = 'sql4401943'
     app.config['MYSQL_DATABASE_PASSWORD'] = 'AXYerx4aQP'
     app.config['MYSQL_DATABASE_DB'] = 'sql4401943'
     app.config['MYSQL_DATABASE_HOST'] = 'sql4.freemysqlhosting.net'
     mysql.init_app(app)
+    glb_mysql = mysql
     return mysql
 
 #returns the connection handle
