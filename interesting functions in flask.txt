@@ -1,0 +1,4 @@
+So an HTML page is called a view in Flask terms so far I understand.
+
+Blueprints are group of pages that are related and can be separated into modules to keep the main app file short.
+
