@@ -1,0 +1,10 @@
+if you have python installed:
+-> pip install -r requirements.txt --ignore-installed
+
+On windows:
+then to run it you should run these two commands once !!!from this folder!!!
+-> set FLASK_APP=flaskr
+-> set FLASK_ENV=development
+
+then you can start the local server
+-> flask run
