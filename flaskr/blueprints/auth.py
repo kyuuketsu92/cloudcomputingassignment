@@ -52,7 +52,7 @@ def register():
         if error is None:
             cursor = conn.cursor()
             command = "INSERT INTO LOGIN_CREDENTIALS (USER_NAME, PASSPHRASE, EMAIL, API_AUTHKEY) VALUES ('{username}', '{passphrase}', '{email}', '{api_autkey}')".format(username = crypticarts.encrypt(user.username), passphrase = user.passhash, email = crypticarts.encrypt(user.email), api_autkey=crypticarts.encrypt(crypticarts.gen_auth_key()))
-            print(command)
+            #print(command)
             cursor.execute(command)
             conn.commit()
             conn.close()
@@ -125,22 +125,22 @@ def persinf():
 
         if not nickname:
             error = 'Please enter display name.'
-        try: 
-            age = int(age)
-        except:
-            error = 'Entered age is not a number'
+        if not age.isnumeric():
+            if age is not None:
+                error = 'Age entered is not a number.'
         
         if error is None:
             conn = db.connect_db(mysql)
             cursor = conn.cursor()
             if persinf is not None:
                 #then we need to adjust the database data                
-                command = "UPDATE PERSONAL_INFORMATION SET NICKNAME = '{nick}', FIRST_NAME = '{fname}', MIDDLE_NAMES = '{mnames}', LAST_NAME = '{lname}', AGE = '{age}'".format(
+                command = "UPDATE PERSONAL_INFORMATION SET NICKNAME = '{nick}', FIRST_NAME = '{fname}', MIDDLE_NAMES = '{mnames}', LAST_NAME = '{lname}', AGE = '{age}' WHERE USER_ID = {id}".format(
                     nick = crypticarts.encrypt(nickname),
                     fname = crypticarts.encrypt(fname) if fname else "",
                     mnames = crypticarts.encrypt(mnames) if mnames else "",
                     lname = crypticarts.encrypt(lname) if lname else "",
-                    age = crypticarts.encrypt(str(age)) if str(age) else ""
+                    age = crypticarts.encrypt(str(age)) if str(age) else "",
+                    id = user.id
                 )
             else:
                 command = "INSERT INTO PERSONAL_INFORMATION (USER_ID, NICKNAME, FIRST_NAME, MIDDLE_NAMES, LAST_NAME, AGE) VALUES ({uid}, '{nick}', '{fname}', '{mnames}', '{lname}', '{age}')".format(
