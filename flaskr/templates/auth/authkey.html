@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Auth key for {{current_user.get_name()}}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  This key is auto generated for each of the users from them if they wish to use the website's REST api to access the user's reminders. <br>
+  This the the authorisation key for you:<br>
+  <p class="authkey">{{current_user.getkey()}}</p>
+
+  The API works will be explained later as it is developed.
+{% endblock %}

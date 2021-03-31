@@ -1,22 +1,23 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Log In{% endblock %}</h1>
+  <h1>{% block title %}Logged in as {{user_name}}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post">
+    <label> Required:</label>
     <label for="persinf_nickname">Nickname</label>
-    <input name="persinf_nickname" id="persinf_nickname" required>
+    <input name="persinf_nickname" id="persinf_nickname" value={{persinf_nickname_placeholder}} required>
     <label> Optional:</label>
     <label for="persinf_fname">First Name</label>
-    <input name="persinf_fname" id="persinf_fname">
+    <input name="persinf_fname" id="persinf_fname" value={{persinf_fname_placeholder}}>
     <label for="persinf_mnames">Middle Name(s)</label>
-    <input name="persinf_mnames" id="persinf_mnames">
+    <input name="persinf_mnames" id="persinf_mnames" value={{persinf_mnames_placeholder}}>
     <label for="persinf_lname">Last Name</label>
-    <input name="persinf_lname" id="persinf_lname">
+    <input name="persinf_lname" id="persinf_lname" value={{persinf_lname_placeholder}}>
     <label for="persinf_age">Age</label>
-    <input name="persinf_age" id="persinf_age">
+    <input name="persinf_age" id="persinf_age" value={{persinf_age_placeholder}}>
     <input type="submit" value="Save">
   </form>
 {% endblock %}

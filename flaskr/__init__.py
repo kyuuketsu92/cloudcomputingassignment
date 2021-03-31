@@ -5,7 +5,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 import requests
 from . import db
 from . import crypticarts
-
+from flask_login import LoginManager, current_user, login_required, current_user
 
 def create_app(test_config=None):
 
@@ -18,36 +18,28 @@ def create_app(test_config=None):
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
     
-    try:        
-        f = open("advertisements","rb")        
-        #test to see if reading is correct
-        #print(type(f))
-        #print(f)
-        #key = f.read(32)
-        #print(str(key))
-        #iv = f.read(16)
-        #print(str(iv))
-        #will not need it any more
-        f.close()
-        print("keyfile found")
-    except:
-        print("keyfile not found generating key")
-        f = open("advertisements","wb")
-        key = os.urandom(32)
-        print(key)
-        iv = os.urandom(16)
-        print(iv)
-        f.write(key)
-        f.write(iv)
-        f.close()
+    #check if keyfile is there, and if not generate a new one. (If the program generates a new keyfile )
+    if(crypticarts.is_keyfile_exists() == False):
+        crypticarts.gen_keyfile()
+
+    login_manager = LoginManager()
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        # since the user_id is just the primary key of our user table, use it in the query for the user
+        #print('This ran')
+        return db.getUser(int(user_id))
 
     #test to see if encryption works from module as well
     #ct = crypticarts.encrypt("erkjNOEJJC Veipucvbe[kocnasm'cioabc <- random size text")
     #print(ct)
     #print(crypticarts.decrypt(ct))
 
-    from . import auth
+    from flaskr.blueprints import auth, logged_in
     app.register_blueprint(auth.bp) 
+    app.register_blueprint(logged_in.bp)
 
     mysql = db.init_db(app)
 
@@ -97,10 +89,5 @@ def create_app(test_config=None):
         #else:
         #    print("failed")
         return ("User_ip_address:"+ip_address+"<br>"+db.html_format_json(data)),200
-
-    #techincally a log on only part of the website that for now as a test is being stored and handled here
-    @app.route('/dashboard')
-    def dashboard():
-        return "Eventually going to be the dashboard for the calendar entry system or whatever. For now just handled as such."
 
     return app

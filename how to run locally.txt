@@ -8,3 +8,8 @@ then to run it you should run these two commands once !!!from this folder!!!
 
 then you can start the local server
 -> flask run
+
+On linux
+-> export FLASK_APP=flaskr
+-> export FLASK_ENV=development
+-> flask run --host(0.0.0.0)

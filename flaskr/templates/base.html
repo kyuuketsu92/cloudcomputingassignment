@@ -6,9 +6,11 @@
 <nav>
   <h1>Flaskr</h1>
   <ul>
-    {% if g.user %}
-      <li><span>{{ g.user['username'] }}</span>
+    {% if current_user.is_authenticated %}
+      <li><a href="{{ url_for('logged_in.dashboard') }}">Dashboard</a>
       <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+      <li><a href="{{ url_for('auth.persinf') }}">Personal Information</a>
+      <li><a href="{{ url_for('auth.authkey') }}">API Authkey</a>
     {% else %}
       <li><a href="{{ url_for('auth.register') }}">Register</a>
       <li><a href="{{ url_for('auth.login') }}">Log In</a>

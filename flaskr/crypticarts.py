@@ -3,6 +3,40 @@ import math
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 import os
 
+def is_keyfile_exists():
+    try:        
+        f = open("advertisements","rb")        
+        #test to see if reading is correct
+        #print(type(f))
+        #print(f)
+        #key = f.read(32)
+        #print(str(key))
+        #iv = f.read(16)
+        #print(str(iv))
+        #will not need it any more
+        f.close()
+        print("keyfile found")
+        return True
+    except:
+        return False
+
+def gen_keyfile():
+    try:
+        print("generating key")
+        f = open("advertisements","wb")
+        key = os.urandom(32)
+        print(key)
+        iv = os.urandom(16)
+        print(iv)
+        f.write(key)
+        f.write(iv)
+        f.close()
+        return True
+    except:
+        print("keygenbooboo")
+        return False
+        
+
 def get_chiper():
     #get key
     f = open("advertisements","rb")
@@ -68,5 +102,5 @@ def decrypt(data): #hexstring to string
     return ct
 
 def gen_auth_key():
-    key = os.urandom(128)
+    key = os.urandom(64)
     return ''.join('{:02x}'.format(x) for x in key)

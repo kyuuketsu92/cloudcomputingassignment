@@ -1,5 +1,6 @@
 from flaskext.mysql import MySQL
 from json2html import *
+from . import classes
 
 
 
@@ -42,7 +43,7 @@ def json_get_login_credentials(conn):
     cursor.execute("SELECT * from LOGIN_CREDENTIALS")
     #as of right now the data in LOGIN_CREDENTIALS are ID_MAIN, USER_NAME, PASSPHRASE, EMAIL
     string_output = ""
-    json_element_template = '"ID_MAIN": "{id}", "USER_NAME": "{uname}", "PASSPHRASE": "{passph}", "EMAIL": "{email}"'
+    json_element_template = '"ID_MAIN": "{id}", "USER_NAME": "{uname}", "PASSPHRASE": "{passph}", "EMAIL": "{email}", "API_AUTHKEY": "{apikey}"'
     json_elements = []
     while(True):
         data = cursor.fetchone()
@@ -54,7 +55,7 @@ def json_get_login_credentials(conn):
             #print(data[0])
             #print(type(data[0]))    
             #print(json_element_template.format(id=str(data[0]), uname=str(data[1]), passph=str(data[2]), email=str(data[3])))
-            json_elements.append(json_element_template.format(id=str(data[0]), uname=str(data[1]), passph=str(data[2]), email=str(data[3])))
+            json_elements.append(json_element_template.format(id=str(data[0]), uname=str(data[1]), passph=str(data[2]), email=str(data[3]), apikey = str(data[4])))
     string_output += '['
     first = True
     for json in json_elements:
@@ -152,5 +153,28 @@ def get_html_database(mysql):
 
     return html_format_json('{data}'.format(data = string_output))
 
+def getUser(id):
+    conn = connect_db(get_db())
+    cursor = conn.cursor();
+
+    command = "SELECT * FROM LOGIN_CREDENTIALS WHERE USER_ID = {uid}".format(uid=id)
+    cursor.execute(command)
+    data = cursor.fetchone()
+    if data is None:
+        return None
+    else:
+        return classes.User(data[0], data[1], data[2], data[3], data[4])
+
+def getName(id):
+    conn = connect_db(get_db())
+    cursor = conn.cursor();
+
+    command = "SELECT NICKNAME FROM PERSONAL_INFORMATION WHERE USER_ID = {uid}".format(uid=id)
+    cursor.execute(command)
+    data = cursor.fetchone()
+    if data is None:
+        return None
+    else:
+        return data[0]
 
 

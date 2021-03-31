@@ -2,3 +2,4 @@ flask
 flask-mysql
 json2html
 criptography
+flask_login
