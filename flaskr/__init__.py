@@ -1,8 +1,10 @@
 import os
 from flaskext.mysql import MySQL
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect, render_template, url_for
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 import requests
 from . import db
+from . import crypticarts
 
 
 def create_app(test_config=None):
@@ -15,6 +17,34 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
+    
+    try:        
+        f = open("advertisements","rb")        
+        #test to see if reading is correct
+        #print(type(f))
+        #print(f)
+        #key = f.read(32)
+        #print(str(key))
+        #iv = f.read(16)
+        #print(str(iv))
+        #will not need it any more
+        f.close()
+        print("keyfile found")
+    except:
+        print("keyfile not found generating key")
+        f = open("advertisements","wb")
+        key = os.urandom(32)
+        print(key)
+        iv = os.urandom(16)
+        print(iv)
+        f.write(key)
+        f.write(iv)
+        f.close()
+
+    #test to see if encryption works from module as well
+    #ct = crypticarts.encrypt("erkjNOEJJC Veipucvbe[kocnasm'cioabc <- random size text")
+    #print(ct)
+    #print(crypticarts.decrypt(ct))
 
     from . import auth
     app.register_blueprint(auth.bp) 
@@ -35,9 +65,14 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
+    @app.route('/')
+    def index_redirect():
+        return redirect(url_for('index'))
+
+    @app.route('/index')
+    def index():
+        return render_template('welcome_page.html')
+
 
     # This is a testing only function that helps us visualise the database status 
     # Not suited for real time production environments
