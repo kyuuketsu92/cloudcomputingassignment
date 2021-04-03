@@ -1,0 +1,19 @@
+{% extends 'logged_in/logged_in_base.html' %}
+
+{% block loggedincontent %}
+  <form method="post">
+    <label for="reminder_add_day">Day (ex: 04)</label>
+    <input name="reminder_add_day" id="reminder_add_day" value="{{reminder_add_day_placeholder}}" required>
+    <label for="reminder_add_month">Month (ex: 02)</label>
+    <input name="reminder_add_month" id="reminder_add_month" value="{{reminder_add_month_placeholder}}" required>
+    <label for="reminder_add_year">Year (ex: 2002)</label>
+    <input name="reminder_add_year" id="reminder_add_year" value="{{reminder_add_year_placeholder}}" required>
+    <label for="reminder_add_hour">Hour (00-23)</label>
+    <input name="reminder_add_hour" id="reminder_add_hour" value="{{reminder_add_hour_placeholder}}" required>
+    <label for="reminder_add_minutes">Minutes (00-59)</label>
+    <input name="reminder_add_minutes" id="reminder_add_minutes" value="{{reminder_add_minutes_placeholder}}" required>
+    <label for="reminder_add_description">Description</label>
+    <input name="reminder_add_description" id="reminder_add_description" value="{{reminder_add_description_placeholder}}" required>
+    <input type="submit" value="Submit">
+  </form>
+{% endblock %}

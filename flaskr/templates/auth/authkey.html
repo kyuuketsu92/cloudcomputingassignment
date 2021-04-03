@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Auth key for {{current_user.get_name()}}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  This key is auto generated for each of the users from them if they wish to use the website's REST api to access the user's reminders. <br>
+  This the the authorisation key for you:<br>
+  <p class="authkey">{{current_user.getkey()}}</p>
+
+  The API works will be explained later as it is developed. These examples will help in some of the commands.
+
+  <p class="datawarning"> Due to lack of time the authkey is in the url. This is a serious security flaw. Be warned that anyone who gets access to this key can have free access to your user data.<br>Normally the message is compiled into a json form where there is a message, a timestamp and the key over a POST protocol. I don't fully understand if this is the case, but at least in HTTPS protocol all data is encrypted. The timestamp is necessary to cause the encrypted data to always look different each time as well as could be used to not accept messages more than a few minutes old.</p><br>
+
+  <br><br>In order to get a json file with all the entries for this user:<br>
+  -URL: {ip}:{port}/api/reminder_get{authkey}<br>
+  -CLI command: curl {url}<br>
+  <a href="{{url_for('api.get_reminders',authkey=current_user.getkey())}}">Click here</a><br>
+  This is a GET method API.<br>
+
+  <br>To add new entries through the API please visit:<br>
+  -URL: {ip}:{port}/api/reminder_add<br>
+  Opening it from the browser returns a brief how to structure the command.<br>
+  <a href="{{url_for('api.add_reminder')}}">Click here</a><br>
+
+  <br>To modify entries through the API please visit:<br>
+  -URL: {ip}:{port}/api/reminder_modify<br>
+  Opening it from the browser returns a brief how to structure the command.<br>
+  <a href="{{url_for('api.modify_reminder')}}">Click here</a><br>
+
+  <br>To delete entries through the API please visit:<br>
+  -URL: {ip}:{port}/api/reminder_delete<br>
+  Opening it from the browser returns a brief how to structure the command.<br>
+  <a href="{{url_for('api.delete_reminder')}}">Click here</a><br>
+
+{% endblock %}

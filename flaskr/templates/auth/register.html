@@ -9,9 +9,11 @@
     <label for="registry_field_username">Username</label>
     <input name="registry_field_username" id="registry_field_username" required>
     <label for="registry_field_passphrase">Password</label>
-    <input type="registry_field_passphrase" name="registry_field_passphrase" id="registry_field_passphrase" required>
-	<label for="registry_field_passphrase_verification">Verify password</label>
-    <input type="registry_field_passphrase_verification" name="registry_field_passphrase_verification" id="registry_field_passphrase_verification" required>
+    <input type="password" name="registry_field_passphrase" id="registry_field_passphrase" type="password" required>
+	  <label for="registry_field_passphrase_verification">Verify password</label>
+    <input type="password" name="registry_field_passphrase_verification" id="registry_field_passphrase_verification" type="password" required>
+    <label for="registry_field_email">Email</label>
+    <input type="email" name="registry_field_email" id="registry_field_email"  required>
     <input type="submit" value="Register">
   </form>
 {% endblock %}
