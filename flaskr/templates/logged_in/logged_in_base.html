@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Logged in as {{current_user.get_name()}}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  
+  <!-- Navigation for all reminders here I guess-->
+  <nav>
+    <h1>Reminders control Panel</h1>
+    <ul>
+      <li><a href="{{ url_for('reminder.add') }}">Add new entry</a>
+      <li><a href="{{ url_for('reminder.modify') }}">Modify reminders</a>
+    </ul>
+  </nav>
+  
+  {% block loggedincontent %}{% endblock %}
+  <!-- Both of these will be JSON tables I guess -->
+  <section class="reminder_table">
+  {% block reminderdata %}{% endblock %}
+  </section>
+  <section class="weather_table">
+  {% block weatherdata %}{% endblock %} 
+  </section>
+
+{% endblock %}
+
+

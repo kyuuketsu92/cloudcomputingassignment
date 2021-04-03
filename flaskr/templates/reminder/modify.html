@@ -1,0 +1,17 @@
+{% extends 'logged_in/logged_in_base.html' %}
+
+{% block reminderdata %}
+<table>
+  <tr>
+    <td>Actions</td>
+    <td>Date</td>
+    <td>Event</td>
+  </tr>
+  {% for row in reminderdataJSON %}
+      <tr>
+          <td><a href={{url_for('reminder.modifyKey',key=row.key)}}>Modify <a href={{url_for('reminder.deleteKey',key=row.key)}}>Delete</td>
+          <td>{{ row.date }}</td>
+          <td>{{ row.description }}</td>
+      </tr>
+  {% endfor %}
+  {% endblock %}

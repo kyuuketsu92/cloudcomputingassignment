@@ -105,6 +105,7 @@ def login():
 def persinf():
     userID = current_user.id
 
+    #check if existing information is stored for user already
     mysql = db.get_db()
     error = None
     conn = db.connect_db(mysql)
@@ -116,18 +117,19 @@ def persinf():
     user = db.getUser(userID)
 
     if request.method == 'POST':
+        #if we posted the form
         nickname = request.form['persinf_nickname']
         fname = request.form['persinf_fname']
         mnames = request.form['persinf_mnames']
         lname = request.form['persinf_lname']
         age = request.form['persinf_age']
 
-
         if not nickname:
             error = 'Please enter display name.'
         if not age.isnumeric():
             if age is not None:
-                error = 'Age entered is not a number.'
+                if age is not "":
+                    error = 'Age entered is not a number.'
         
         if error is None:
             conn = db.connect_db(mysql)
@@ -159,7 +161,17 @@ def persinf():
             return redirect(url_for('logged_in.dashboard'))
 
         flash(error)
+        return render_template('auth/pers_inf.html',
+            persinf_nickname_placeholder = nickname,
+            persinf_fname_placeholder=fname,
+            persinf_mnames_placeholder=mnames,
+            persinf_lname_placeholder=lname,
+            persinf_age_placeholder=age,
+            user_name = crypticarts.decrypt(user.uname))
     else:
+        #first get request
+
+        #if previous data is existing then fill in the form
         if persinf is not None:            
             return render_template('auth/pers_inf.html',
                 persinf_nickname_placeholder = crypticarts.decrypt(persinf[2]) if persinf[2] is not None else "",

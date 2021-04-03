@@ -1,11 +1,32 @@
-{% extends 'base.html' %}
+{% extends 'logged_in/logged_in_base.html' %}
 
-{% block header %}
-  <h1>{% block title %}Welcome {{current_user.get_name()}}{% endblock %}</h1>
-{% endblock %}
 
-{% block content %}
+
+{% block loggedincontent %}
   This is going to be the default logged on area where you will be able to see the reminders, we are also preparing a little weather forecast data to be shown here. Buttons will be available to add, modify or delete reminders.
 
   Still no real information please. If you want to check how the data is stored you can navigate to <b>/test_db</b> and if you want to see the info we can get from your IP address go to <b>/test_ipdata</b>.
+{% endblock %}
+
+{% block weatherdata %}
+  {{ weatherdataJSONtable|safe }} <!-- Application selects what gets shown here -->
+{% endblock %}
+
+{% block reminderdata %}
+<table>
+  <tr>
+    <td>Date</td>
+    <td>Event</td>
+    <td>Time remaining</td>
+  </tr>
+  {% for row in reminderdataJSON %}
+      <tr>
+          <td>{{ row.date }}</td>
+          <td>{{ row.description }}</td>
+          <td>{{ timeRemaining(row.date) }}</td>
+          <!--<td><a href={{url_for('reminder.modifyKey',key=row.key)}}>Modify</td>
+          <td><a href={{url_for('reminder.deleteKey',key=row.key)}}>Delete</td>-->
+      </tr>
+  {% endfor %}
+</table> <!-- Application selects what gets shown here -->
 {% endblock %}

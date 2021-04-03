@@ -37,9 +37,11 @@ def create_app(test_config=None):
     #print(ct)
     #print(crypticarts.decrypt(ct))
 
-    from flaskr.blueprints import auth, logged_in
+    from flaskr.blueprints import auth, logged_in, reminder, api
     app.register_blueprint(auth.bp) 
     app.register_blueprint(logged_in.bp)
+    app.register_blueprint(reminder.bp)
+    app.register_blueprint(api.bp)
 
     mysql = db.init_db(app)
 

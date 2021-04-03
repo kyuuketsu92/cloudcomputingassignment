@@ -26,3 +26,8 @@ input.danger { color: #cc2f2e; }
 input[type=submit] { align-self: start; min-width: 10em; }
 .authkey {color: #979189; font-size: 0.75em;}
 .datawarning {font-family: serif; color: #cc2f2e; font-size: 2.00em; font-weight: bold;}
+.reminder_table > table > tbody > tr > td{ border: 2px solid  slategray; background-color: #cae6f6;}
+.reminder_table > table { border: 2px solid  slategray; background-color: lightgray;}
+
+.weather_table > table > tbody > tr > td{ border: 2px solid  slategray; background-color: lightgoldenrodyellow;}
+.weather_table > table { border: 2px solid  slategray; background-color: lightgray;}
