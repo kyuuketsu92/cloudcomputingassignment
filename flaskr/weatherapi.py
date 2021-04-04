@@ -37,8 +37,8 @@ def get_weather_json():
         datet = datetime.datetime.strptime(json_data[day*8]['dt_txt'], '%Y-%m-%d %H:%M:%S')
         date = datet.date()
         #print(str(date)+"->Min: "+str(minVal)+" Max: "+str(maxVal))
-        json_element = {"date":str(date), "max":"{number:4.2f}".format(number=maxVal), "min":"{number:4.2f}".format(number=minVal)}
+        json_element = {"DATE":str(date), "MAX":"{number:4.2f}".format(number=maxVal), "MIN":"{number:4.2f}".format(number=minVal)}
         json_extracted_list.append(json_element)
 
-    json_retval = {"title":"Weather forecast", "Region":location, "days":json_extracted_list}
+    json_retval = {"TITLE":"Weather forecast", "REGION":location, "DAYS":json_extracted_list}
     return json_retval
