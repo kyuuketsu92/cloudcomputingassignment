@@ -9,10 +9,11 @@
     {% if current_user.is_authenticated %}
       {% if current_user.got_name_set() %}     
         <li><a href="{{ url_for('logged_in.dashboard') }}">Dashboard</a>
+        <li><a href="{{ url_for('auth.authkey') }}">API Authkey</a>
       {% endif %}
       <li><a href="{{ url_for('auth.logout') }}">Log Out</a>      
       <li><a href="{{ url_for('auth.persinf') }}">Personal Information</a>
-      <li><a href="{{ url_for('auth.authkey') }}">API Authkey</a>
+      
     {% else %}
       <li><a href="{{ url_for('auth.register') }}">Register</a>
       <li><a href="{{ url_for('auth.login') }}">Log In</a>
