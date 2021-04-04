@@ -2,7 +2,10 @@ from flaskext.mysql import MySQL
 from json2html import *
 from . import classes, crypticarts
 
+#database related functions
 
+
+#without better judgement the mysql 
 def get_db():
     global glb_mysql
     return glb_mysql
@@ -224,3 +227,4 @@ def get_authkey_user(authkey):
         return data[0]
     else:
         return None
+

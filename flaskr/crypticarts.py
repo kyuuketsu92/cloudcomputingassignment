@@ -3,6 +3,7 @@ import math
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 import os
 
+#checks if the keyfile exists
 def is_keyfile_exists():
     try:        
         f = open("advertisements","rb")        
@@ -20,6 +21,7 @@ def is_keyfile_exists():
     except:
         return False
 
+#called if keyfile didn't exists so it generates a key and then saves it
 def gen_keyfile():
     try:
         print("generating key")
@@ -36,7 +38,7 @@ def gen_keyfile():
         print("keygenbooboo")
         return False
         
-
+#builds the encrytptor, decriptor base class
 def get_chiper():
     #get key
     f = open("advertisements","rb")
@@ -46,6 +48,7 @@ def get_chiper():
 
     return Cipher(algorithms.AES(key), modes.CBC(iv))
 
+#handles the data padding, and encryption. Data ancrypted is a hesstring
 def encrypt(data): #string to hexstring
     #we gotta bring the info to a multiplicand of the AES key size of 32
     #since everything is stored as VARCHAR in the database I think a simple '/0' padding for the byte array might be sufficient
@@ -88,6 +91,7 @@ def encrypt(data): #string to hexstring
     retval = ''.join('{:02x}'.format(x) for x in ct)
     return retval
 
+#handles decrypting where the hexstring is given and it decrypts the hexstring, removes the padding
 def decrypt(data): #hexstring to string
 
     data = bytearray.fromhex(data)
@@ -101,6 +105,7 @@ def decrypt(data): #hexstring to string
 
     return ct
 
+#this is for user registration process to generate a random key that is used to authenticate and verify the user
 def gen_auth_key():
     key = os.urandom(64)
     return ''.join('{:02x}'.format(x) for x in key)

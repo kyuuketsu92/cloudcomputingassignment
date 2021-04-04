@@ -1,4 +1,5 @@
 import flaskr.db as db
+import flaskr.weatherapi as weatherapi
 import flaskr.crypticarts as crypticarts
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app, jsonify, json
@@ -11,7 +12,7 @@ bp = Blueprint('logged_in', __name__, url_prefix='/logged_in')
 @bp.route('/dashboard')
 @login_required
 def dashboard():
-    placeholderWeatherJson='{"name":"Weather forecast", "location":"London", "days":[ {"day" : "02 Apr", "max" : "15", "min":"8"},{"day" : "03 Apr", "max" : "13", "min":"5"},{"day" : "04 Apr", "max" : "11", "min":"3"}]}'
+    weatherJson = weatherapi.get_weather_json()
     reminderRaw = db.getEntries(current_user.id)
     if reminderRaw is not None:
         reminderFuture = []
@@ -20,11 +21,11 @@ def dashboard():
                 reminderFuture.append(element)
         if len(reminderFuture) > 0:
             return render_template('logged_in/dashboard.html',
-                weatherdataJSONtable=db.html_format_json(placeholderWeatherJson),
+                weatherdataJSONtable=db.html_format_json(weatherJson),
                 reminderdataJSON=reminderFuture,
                 timeRemaining=timeRemaining)
     
     return render_template('logged_in/dashboard.html',
-        weatherdataJSONtable=db.html_format_json(placeholderWeatherJson),
+        weatherdataJSONtable=db.html_format_json(weatherJson),
         timeRemaining=timeRemaining)
 

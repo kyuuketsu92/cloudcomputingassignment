@@ -8,11 +8,10 @@
   Still no real information please. If you want to check how the data is stored you can navigate to <b>/test_db</b> and if you want to see the info we can get from your IP address go to <b>/test_ipdata</b>.
 {% endblock %}
 
-{% block weatherdata %}
-  {{ weatherdataJSONtable|safe }} <!-- Application selects what gets shown here -->
-{% endblock %}
+
 
 {% block reminderdata %}
+<br><br>
 <table>
   <tr>
     <td>Date</td>
@@ -29,4 +28,9 @@
       </tr>
   {% endfor %}
 </table> <!-- Application selects what gets shown here -->
+{% endblock %}
+
+{% block weatherdata %}
+<br><br>
+  {{ weatherdataJSONtable|safe }} <!-- Application selects what gets shown here -->
 {% endblock %}

@@ -1,6 +1,7 @@
 #this is the py that deals with curl commands
 
 import flaskr.db as db
+import flaskr.weatherapi as weatherapi
 import flaskr.crypticarts as crypticarts
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app, jsonify
@@ -190,3 +191,7 @@ def delete_reminder():
         example = 'curl --header "Content-Type: application/json" --request DELETE --data "{\"apiauthkey\":\"1231123417824619dgf08712\", \"entry_id\":\"2341223ff134123451\"}" 127.0.0.1:5000/api/reminder_delete'
         disc = 'Depending on operating system, the commands might need extra backslash characters before the \" characters.'
         return "Usage: "+usage+"<br>Example: "+example+"<br><br>"+disc,200
+
+@bp.route('/weather')
+def weather():
+    return weatherapi.get_weather_json(),200
