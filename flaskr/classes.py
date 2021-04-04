@@ -1,6 +1,7 @@
 from . import db, crypticarts
 from flask_login import UserMixin
 
+#for flask-login we needed to create a USER class using database this class can provide some information about the user
 class User(UserMixin):
     name = None
     def __init__(self, id, uname, passphrase, email, apiauthkey):

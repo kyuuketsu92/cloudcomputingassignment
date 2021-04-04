@@ -3,13 +3,15 @@ from flaskext.mysql import MySQL
 from flask import Flask, request, jsonify, redirect, render_template, url_for
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 import requests
-from . import db
-from . import crypticarts
+from . import db, crypticarts, weatherapi
 from flask_login import LoginManager, current_user, login_required, current_user
+from json2html import *
 
-def create_app(test_config=None):
-
-    
+## when run as "flask run" this is the entry of the app
+#this generates the flask app
+#connects blueprints
+#and provides some endpoints for the index, plus some testing purposes
+def create_app(test_config=None):    
 
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -91,5 +93,10 @@ def create_app(test_config=None):
         #else:
         #    print("failed")
         return ("User_ip_address:"+ip_address+"<br>"+db.html_format_json(data)),200
+
+
+    @app.route('/test-weather')
+    def test_weather():
+        return json2html.convert(json = weatherapi.get_weather_json())
 
     return app
